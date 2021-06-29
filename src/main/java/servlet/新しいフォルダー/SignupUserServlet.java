@@ -83,38 +83,13 @@ public class SignupUserServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String pass = request.getParameter("pass");
 		
-		/*入力情報のバリデーション*/
-		//入力不適合のエラー文
-		String errorMsg = "";
-		
-		//パスワードの長さが8文字以上であるか
-		
-		boolean passIsRegular = true;
-		if(pass.length() < 8) {
-			passIsRegular = false;
-			errorMsg += "パスワードは8文字以上に設定してください<br>";
-		}
-		//メールアドレスの形式であるか
-		boolean emailIsRegular = email.matches("^([a-zA-Z0-9])+([a-zA-Z0-9\\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\\._-]+)+$");
-//		boolean emailIsRegular = email.matches("^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{​2,}​$");
-		if(emailIsRegular == false) {
-			errorMsg += "メールアドレスを入力してください<br>";
-		}
-		//パスワード・メールアドレスの少なくとも1つに不適合があれば登録フォームへリダイレクト
-		if(passIsRegular == false || emailIsRegular == false) {
-			HttpSession session = request.getSession();
-			session.setAttribute("errorMsg", errorMsg);
-			response.sendRedirect("/tcu_gourmet/registerError.jsp");
-			return;
-		}
-		
 		//登録するユーザーの情報を設定
 		User registerUser = new User(name,userID,email,pass,false);
 		registerUser.setHashedPass(pass);
 
 		//管理者フラグに関する処理
 		/*	<未定義>	*/
-		//※管理者権限はDBへの直接操作で付与する予定
+		//
 
 		//ユーザー情報をDBへ記録
 		UserDAO uDAO = new UserDAO();
